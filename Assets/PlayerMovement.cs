@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-	public int speed = 10;
+	public float baseSpeed = 10;
+	private float speed = 10;
 	private bool facingRight = true;
-	public int jumpPower = 1200;
+	public int jumpPower = 1000;
 	private float moveX;
 	private bool isOnGround;
 
@@ -26,21 +27,19 @@ public class PlayerMovement : MonoBehaviour
 		// animations
 
 		// player direction
-		if (moveX < 0 && facingRight) {
-			FlipPlayer();
-		} else if (moveX > 0 && !facingRight) {
-			FlipPlayer();
+		if ((moveX < 0 && facingRight) || (moveX > 0 && !facingRight)) {
+			Flip();
 		}
 
 		// physics
-		Rigidbody2D rigidbody = gameObject.GetComponent<Rigidbody2D>();
-		rigidbody.velocity = new Vector2(moveX * speed, gameObject.GetComponent<Rigidbody2D>().velocity.y);
-		rigidbody.freezeRotation = true;
-		speed = 5 + (isOnGround ? 5 : 0);
+		gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * speed, gameObject.GetComponent<Rigidbody2D>().velocity.y);
+		speed = baseSpeed / 2 + (isOnGround ? baseSpeed / 2 : 0);
 	}
 
-	void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.gameObject.tag == "Terrain") {
+	void OnCollisionEnter2D(Collision2D collision)
+	{
+		string tag = collision.gameObject.tag;
+		if (tag == "Terrain" || tag == "Ground") {
 			isOnGround = true;
 		}
 	}
@@ -53,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 	}
 
-	void FlipPlayer()
+	void Flip()
 	{
 		facingRight = !facingRight;
 		Vector2 localScale = gameObject.transform.localScale;

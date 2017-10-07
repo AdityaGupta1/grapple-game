@@ -4,3 +4,4 @@ obj/
 Library/
 .DS_Store
 Assembly-CSharp.csproj
+Temp/
