@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-	public float baseSpeed = 10;
-	private float speed = 10;
+	public float speed = 10;
 	private bool facingRight = true;
 	public int jumpPower = 1000;
 	private float moveX;
 	private bool isOnGround;
+	GrapplingHook hook;
+
+	void Start() {
+		hook = gameObject.GetComponent<GrapplingHook>();
+	}
 
 	void Update()
 	{
@@ -33,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
 
 		// physics
 		gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(moveX * speed, gameObject.GetComponent<Rigidbody2D>().velocity.y);
-		speed = baseSpeed / 2 + (isOnGround ? baseSpeed / 2 : 0);
 	}
 
 	void OnCollisionEnter2D(Collision2D collision)

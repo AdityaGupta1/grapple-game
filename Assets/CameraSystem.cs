@@ -6,7 +6,7 @@ public class CameraSystem : MonoBehaviour {
 
     private GameObject player;
     public float xMin = -16;
-    public float xMax = 16;
+    public float xMax = 64;
     public float yMin;
     public float yMax;
 
